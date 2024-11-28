@@ -19,6 +19,8 @@
     - map: [ "enum.HumanoidVisualLayers.LArm" ]
     - map: [ "enum.HumanoidVisualLayers.RLeg" ]
     - map: [ "enum.HumanoidVisualLayers.LLeg" ]
+    - map: [ "enum.HumanoidVisualLayers.Underwear" ]
+    - map: [ "enum.HumanoidVisualLayers.Undershirt" ]
     - map: ["jumpsuit"]
     - map: ["enum.HumanoidVisualLayers.LFoot"]
     - map: ["enum.HumanoidVisualLayers.RFoot"]
@@ -54,12 +56,12 @@
   - type: DamageVisuals
     thresholds: [ 10, 20, 30, 50, 70, 100 ]
     targetLayers:
-    - "enum.HumanoidVisualLayers.Chest"
-    - "enum.HumanoidVisualLayers.Head"
-    - "enum.HumanoidVisualLayers.LArm"
-    - "enum.HumanoidVisualLayers.LLeg"
-    - "enum.HumanoidVisualLayers.RArm"
-    - "enum.HumanoidVisualLayers.RLeg"
+      !type:BodyPart { type: Head, side: None }: Head
+      !type:BodyPart { type: Torso, side: None }: Chest
+      !type:BodyPart { type: Arm, side: Left }: LArm
+      !type:BodyPart { type: Arm, side: Right }: RArm
+      !type:BodyPart { type: Leg, side: Left }: LLeg
+      !type:BodyPart { type: Leg, side: Right }: RLeg
     damageOverlayGroups:
       Brute:
         sprite: Mobs/Effects/brute_damage.rsi
@@ -135,6 +137,7 @@
     - Flashed
     - RadiationProtection
     - Drowsiness
+    - Adrenaline
   - type: Body
     prototype: Human
     requiredLegs: 2
@@ -162,6 +165,7 @@
     damage:
       types:
         Blunt: 5
+  - type: DamagePartAccuracy
   - type: SleepEmitSound
   - type: SSDIndicator
   - type: StandingState
@@ -174,6 +178,15 @@
     interactSuccessString: hugging-success-generic
     interactSuccessSound: /Audio/Effects/thudswoosh.ogg
     messagePerceivedByOthers: hugging-success-generic-others
+    messagePerceivedByTarget: hugging-success-generic-target
+  - type: AlternativeInteractionPopup
+    verbTitle: poking-verb
+    successChance: 1
+    interactSuccessSound:
+      collection: WeakHit
+    soundPerceivedByOthers: false
+    interactSuccessString: poking-success-generic
+    messagePerceivedByTarget: poking-success-target
   - type: CanHostGuardian
   - type: NpcFactionMember
     factions:
@@ -182,12 +195,12 @@
   - type: Stripping
   - type: UserInterface
     interfaces:
-      enum.VoiceMaskUIKey.Key:
-        type: VoiceMaskBoundUserInterface
       enum.HumanoidMarkingModifierKey.Key:
         type: HumanoidMarkingModifierBoundUserInterface
       enum.StrippingUiKey.Key:
         type: StrippableBoundUserInterface
+      enum.DamageSelectorUiKey.Key:
+        type: DamageSelectorBoundUserInterface
   - type: Puller
   - type: Speech
     speechSounds: Alto
@@ -206,12 +219,51 @@
   - type: MobPrice
     price: 1500 # Kidnapping a living person and selling them for cred is a good move.
     deathPenalty: 0.01 # However they really ought to be living and intact, otherwise they're worth 100x less.
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      100: SoftCritical
+      130: HardCritical
+      200: Dead
+  - type: MobState
+    allowedStates:
+      - Alive
+      - SoftCritical
+      - HardCritical
+      - Dead
+  - type: MobStateActions
+    actions:
+      SoftCritical:
+      - ActionCritSuccumb
+      - ActionCritFakeDeath
+      - ActionCritLastWords
+      HardCritical:
+      - ActionCritSuccumb
+      - ActionCritFakeDeath
+      - ActionCritLastWords
+  - type: DamageOnInteract
+    damageUser: false
+    damage:
+      types:
+        Asphyxiation: -0.8 # not enough where you can counter it
+    ignoreResistances: true
+    popupText: cpr-start
+    ignoreDamage: true
+    interactSound:
+      path: /Audio/Effects/heartbeat.ogg
+    requiredStates:
+    - SoftCritical
+    - HardCritical
+    time: 2.5
+    doAfterRepeatable: true
   - type: Tag
     tags:
     - CanPilot
     - FootstepSound
     - DoorBumpOpener
+    - AnomalyHost
   - type: Crawler
+  - type: CanRemoveCrawling
 
 - type: entity
   save: false
@@ -306,6 +358,8 @@
     - map: [ "enum.HumanoidVisualLayers.LArm" ]
     - map: [ "enum.HumanoidVisualLayers.RLeg" ]
     - map: [ "enum.HumanoidVisualLayers.LLeg" ]
+    - map: [ "enum.HumanoidVisualLayers.Underwear" ]
+    - map: [ "enum.HumanoidVisualLayers.Undershirt" ]
     - map: ["jumpsuit"]
     - map: ["enum.HumanoidVisualLayers.LFoot"]
     - map: ["enum.HumanoidVisualLayers.RFoot"]

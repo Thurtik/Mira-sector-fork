@@ -151,6 +151,8 @@
   - HellfireFreezerMachineCircuitBoard
   - PortableScrubberMachineCircuitBoard
   - HolofanProjector
+  technologyPrerequisites:
+  - AtmosphericTech
 
 - type: technology
   id: AdvancedToolsTechnology
@@ -167,6 +169,8 @@
     - JawsOfLife
     - BorgModuleAdvancedTool
     - BorgModuleRCD
+    - RCD
+    - RCDAmmo
 
 - type: technology
   id: MassExcavation

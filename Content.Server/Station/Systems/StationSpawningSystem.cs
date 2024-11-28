@@ -75,9 +75,9 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
                 SpawnPriorityPreference.Cryosleep, ev =>
                 {
                     var stationTime = _timing.CurTime.Subtract(_gameTicker.RoundStartTimeSpan).Minutes;
-                    Log.Debug($"stationTime: {stationTime}");
-                    Log.Debug($"ArrivalsCutoff: {_arrivalsSystem.ArrivalsCutoff}");
-                    if (_arrivalsSystem.ArrivalsCutoff >= stationTime)
+                    var cutoff = _arrivalsSystem.ArrivalsCutoff;
+
+                    if (cutoff >= stationTime)
                     {
                         _arrivalsSystem.HandlePlayerSpawning(ev);
                     }
@@ -329,24 +329,30 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
         if (!TryComp<IdCardComponent>(cardId, out var card))
             return;
 
-        _cardSystem.TryChangeFullName(cardId, characterName, card);
-        _cardSystem.TryChangeJobTitle(cardId, job.JobName ?? jobPrototype.LocalizedName, card);
+        if (card.UpdateName)
+        {
+            _cardSystem.TryChangeFullName(cardId, characterName, card);
+            _cardSystem.TryChangeJobTitle(cardId, job.JobName ?? jobPrototype.LocalizedName, card);
+        }
 
         _prototypeManager.TryIndex<JobIconPrototype>(job.JobIcon ?? string.Empty, out var presetJobIcon);
         if (_prototypeManager.TryIndex(jobPrototype.Icon, out var jobIcon))
             _cardSystem.TryChangeJobIcon(cardId, presetJobIcon ?? jobIcon, card);
 
-        var extendedAccess = false;
-        if (station != null)
+        if (card.AccessOverride)
         {
-            var data = Comp<StationJobsComponent>(station.Value);
-            extendedAccess = data.ExtendedAccess;
+            var extendedAccess = false;
+            if (station != null)
+            {
+                var data = Comp<StationJobsComponent>(station.Value);
+                extendedAccess = data.ExtendedAccess;
+            }
+
+            _accessSystem.SetAccessToJob(cardId, jobPrototype, extendedAccess);
         }
 
-        _accessSystem.SetAccessToJob(cardId, jobPrototype, extendedAccess);
-
         if (pdaComponent != null)
-            _pdaSystem.SetOwner(idUid.Value, pdaComponent, characterName);
+            _pdaSystem.SetOwner(idUid.Value, pdaComponent, entity, characterName);
     }
 
 

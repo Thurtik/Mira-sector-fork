@@ -46,10 +46,10 @@
   - type: IntrinsicRadioReceiver
   - type: IntrinsicRadioTransmitter
     channels:
-    - Binary
+    - Hexadecimal
   - type: ActiveRadio
     channels:
-    - Binary
+    - Hexadecimal
     - Common
   - type: DoAfter
   - type: Actions
@@ -73,6 +73,16 @@
           Searching: { state: pai-searching-overlay }
           On: { state: pai-on-overlay }
   - type: StationMap
+  - type: SpeciesLanguage
+    spokenLanguages:
+    - Binary
+    - Common
+    - Draconic
+    - Moffic
+    - Calcic
+    - Slime
+    - Monkey
+    - Buzzwords
 
 - type: entity
   parent: [ PersonalAI, BaseSyndicateContraband]

@@ -1,3 +1,4 @@
+using Content.Shared.Body.Components;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.EntityEffects;
@@ -35,6 +36,10 @@ namespace Content.Server.EntityEffects.Effects
         [DataField]
         [JsonPropertyName("ignoreResistances")]
         public bool IgnoreResistances = true;
+
+        [DataField]
+        [JsonPropertyName("targetIsOrigin")]
+        public bool TargetIsOrigin = false;
 
         protected override string ReagentEffectGuidebookText(IPrototypeManager prototype, IEntitySystemManager entSys)
         {
@@ -124,7 +129,9 @@ namespace Content.Server.EntityEffects.Effects
                 args.TargetEntity,
                 Damage * scale,
                 IgnoreResistances,
-                interruptsDoAfters: false);
+                interruptsDoAfters: false,
+                origin: TargetIsOrigin ? args.TargetEntity : null,
+                ignorePartScale: true);
         }
     }
 }

@@ -112,6 +112,7 @@
   - type: SpeciesLanguage
     understoodLanguages:
     - Slime
+  - type: CanEnterPipeCrawling
 
 - type: entity
   name: basic slime
@@ -180,7 +181,9 @@
         Base: white_adult_slime
       Dead:
         Base: white_adult_slime_dead
-
+  - type: SpeciesLanguage
+    spokenLanguages:
+    - Slime
   - type: Body
     prototype: Geras
     requiredLegs: 1
@@ -215,6 +218,8 @@
     interfaces:
       enum.StorageUiKey.Key:
         type: StorageBoundUserInterface
+      enum.DamageSelectorUiKey.Key:
+        type: DamageSelectorBoundUserInterface
   - type: PersistantSlimeStorage
 
 - type: entity

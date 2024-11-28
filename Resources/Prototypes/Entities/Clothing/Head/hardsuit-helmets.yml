@@ -60,7 +60,8 @@
     highPressureMultiplier: 0.08
     lowPressureMultiplier: 1000
   - type: TemperatureProtection
-    coefficient: 0.005
+    heatingCoefficient: 0.005
+    coolingCoefficient: 0.005
   - type: FireProtection
     reduction: 0.2
 
@@ -150,12 +151,9 @@
     highPressureMultiplier: 0.08
     lowPressureMultiplier: 1000
   - type: Armor
+    basePart: Head
     modifiers:
-      coefficients:
-        Blunt: 0.9
-        Slash: 0.9
-        Piercing: 0.9
-        Heat: 0.9
+      [ Head ] : { coefficients: { Blunt: 0.9, Slash: 0.9, Piercing: 0.9, Heat: 0.9 } }
 
 #Security Hardsuit
 - type: entity
@@ -174,12 +172,9 @@
     highPressureMultiplier: 0.525
     lowPressureMultiplier: 1000
   - type: Armor
+    basePart: Head
     modifiers:
-      coefficients:
-        Blunt: 0.9
-        Slash: 0.9
-        Piercing: 0.9
-        Heat: 0.9
+      [ Head ] : { coefficients: { Blunt: 0.9, Slash: 0.9, Piercing: 0.9, Heat: 0.9 } }
 
 #Brigmedic Hardsuit
 - type: entity
@@ -195,14 +190,9 @@
   - type: PointLight
     color: "#00FFFF"
   - type: Armor
+    basePart: Head
     modifiers:
-      coefficients:
-        Blunt: 0.95
-        Slash: 0.95
-        Piercing: 0.95
-        Heat: 0.95
-        Radiation: 0.90
-        Caustic: 0.90
+      [ Head ] : { coefficients: { Blunt: 0.95, Slash: 0.95, Piercing: 0.95, Heat: 0.95, Radiation: 0.90, Caustic: 0.90 } }
   - type: PressureProtection
     highPressureMultiplier: 0.6
     lowPressureMultiplier: 1000
@@ -224,12 +214,9 @@
     highPressureMultiplier: 0.525
     lowPressureMultiplier: 1000
   - type: Armor
+    basePart: Head
     modifiers:
-      coefficients:
-        Blunt: 0.9
-        Slash: 0.9
-        Piercing: 0.9
-        Heat: 0.9
+      [ Head ] : { coefficients: { Blunt: 0.9, Slash: 0.9, Piercing: 0.9, Heat: 0.9 } }
 
 #Captain's Hardsuit
 - type: entity
@@ -316,12 +303,9 @@
     highPressureMultiplier: 0.45
     lowPressureMultiplier: 1000
   - type: Armor
+    basePart: Head
     modifiers:
-      coefficients:
-        Blunt: 0.9
-        Slash: 0.9
-        Piercing: 0.9
-        Heat: 0.9
+      [ Head ] : { coefficients: { Blunt: 0.9, Slash: 0.9, Piercing: 0.9, Heat: 0.9 } }
 
 #Luxury Mining Hardsuit
 - type: entity
@@ -359,12 +343,9 @@
     highPressureMultiplier: 0.08
     lowPressureMultiplier: 1000
   - type: Armor
+    basePart: Head
     modifiers:
-      coefficients:
-        Blunt: 0.9
-        Slash: 0.9
-        Piercing: 0.9
-        Heat: 0.9
+      [ Head ] : { coefficients: { Blunt: 0.9, Slash: 0.9, Piercing: 0.9, Heat: 0.9 } }
 
 #Blood-red Medic Hardsuit
 - type: entity
@@ -383,12 +364,9 @@
     highPressureMultiplier: 0.08
     lowPressureMultiplier: 1000
   - type: Armor
+    basePart: Head
     modifiers:
-      coefficients:
-        Blunt: 0.9
-        Slash: 0.9
-        Piercing: 0.9
-        Heat: 0.9
+      [ Head ] : { coefficients: { Blunt: 0.9, Slash: 0.9, Piercing: 0.9, Heat: 0.9 } }
 
 #Syndicate Elite Hardsuit
 - type: entity
@@ -407,16 +385,14 @@
     highPressureMultiplier: 0.08
     lowPressureMultiplier: 1000
   - type: TemperatureProtection
-    coefficient: 0.005
+    heatingCoefficient: 0.005
+    coolingCoefficient: 0.005
   - type: FireProtection
     reduction: 0.2
   - type: Armor
+    basePart: Head
     modifiers:
-      coefficients:
-        Blunt: 0.9
-        Slash: 0.9
-        Piercing: 0.9
-        Heat: 0.9
+      [ Head ] : { coefficients: { Blunt: 0.9, Slash: 0.9, Piercing: 0.9, Heat: 0.9 } }
 
 #Syndicate Commander Hardsuit
 - type: entity
@@ -435,12 +411,9 @@
     highPressureMultiplier: 0.08
     lowPressureMultiplier: 1000
   - type: Armor
+    basePart: Head
     modifiers:
-      coefficients:
-        Blunt: 0.9
-        Slash: 0.9
-        Piercing: 0.9
-        Heat: 0.9
+      [ Head ] : { coefficients: { Blunt: 0.9, Slash: 0.9, Piercing: 0.9, Heat: 0.9 } }
 
 #Cybersun Juggernaut Hardsuit
 - type: entity
@@ -457,12 +430,9 @@
     highPressureMultiplier: 0.3
     lowPressureMultiplier: 1000
   - type: Armor
+    basePart: Head
     modifiers:
-      coefficients:
-        Blunt: 0.9
-        Slash: 0.9
-        Piercing: 0.9
-        Heat: 0.9
+      [ Head ] : { coefficients: { Blunt: 0.9, Slash: 0.9, Piercing: 0.9, Heat: 0.9 } }
 
 #Wizard Hardsuit
 - type: entity
@@ -481,12 +451,9 @@
     highPressureMultiplier: 0.27
     lowPressureMultiplier: 1000
   - type: Armor
+    basePart: Head
     modifiers:
-      coefficients:
-        Blunt: 0.9
-        Slash: 0.9
-        Piercing: 0.9
-        Heat: 0.9
+      [ Head ] : { coefficients: { Blunt: 0.9, Slash: 0.9, Piercing: 0.9, Heat: 0.9 } }
 
 #Organic Space Suit
 - type: entity
@@ -538,7 +505,7 @@
 #CENTCOMM / ERT HARDSUITS
 #ERT Leader Hardsuit
 - type: entity
-  parent: ClothingHeadHelmetHardsuitSyndieCommander
+  parent: [ BaseCentcommContraband, ClothingHeadHelmetHardsuitSyndieCommander ]
   id: ClothingHeadHelmetHardsuitERTLeader
   name: ERT leader hardsuit helmet
   description: A special hardsuit helmet worn by members of an emergency response team.
@@ -550,16 +517,13 @@
   - type: PointLight
     color: "#addbff"
   - type: Armor
+    basePart: Head
     modifiers:
-      coefficients:
-        Blunt: 0.9
-        Slash: 0.9
-        Piercing: 0.9
-        Heat: 0.9
+      [ Head ] : { coefficients: { Blunt: 0.9, Slash: 0.9, Piercing: 0.9, Heat: 0.9 } }
 
 #ERT Chaplain Hardsuit
 - type: entity
-  parent: ClothingHeadHelmetHardsuitSyndie
+  parent: [ BaseCentcommContraband, ClothingHeadHelmetHardsuitSyndie ]
   id: ClothingHeadHelmetHardsuitERTChaplain
   name: ERT chaplain hardsuit helmet
   description: A special hardsuit helmet worn by members of an emergency response team.
@@ -573,7 +537,7 @@
 
 #ERT Engineer Hardsuit
 - type: entity
-  parent: ClothingHeadHelmetHardsuitSyndie
+  parent: [ BaseCentcommContraband, ClothingHeadHelmetHardsuitSyndie ]
   id: ClothingHeadHelmetHardsuitERTEngineer
   name: ERT engineer hardsuit helmet
   description: A special hardsuit helmet worn by members of an emergency response team.
@@ -585,16 +549,13 @@
   - type: PointLight
     color: "#f4ffad"
   - type: Armor
+    basePart: Head
     modifiers:
-      coefficients:
-        Blunt: 0.9
-        Slash: 0.9
-        Piercing: 0.9
-        Heat: 0.9
+      [ Head ] : { coefficients: { Blunt: 0.9, Slash: 0.9, Piercing: 0.9, Heat: 0.9 } }
 
 #ERT Medical Hardsuit
 - type: entity
-  parent: ClothingHeadHelmetHardsuitSyndieElite
+  parent: [ BaseCentcommContraband, ClothingHeadHelmetHardsuitSyndieElite ]
   id: ClothingHeadHelmetHardsuitERTMedical
   name: ERT medic hardsuit helmet
   description: A special hardsuit helmet worn by members of an emergency response team.
@@ -608,7 +569,7 @@
 
 #ERT Security Hardsuit
 - type: entity
-  parent: ClothingHeadHelmetHardsuitSyndie
+  parent: [ BaseCentcommContraband, ClothingHeadHelmetHardsuitSyndie ]
   id: ClothingHeadHelmetHardsuitERTSecurity
   name: ERT security hardsuit helmet
   description: A special hardsuit helmet worn by members of an emergency response team.
@@ -620,16 +581,13 @@
   - type: PointLight
     color: "#ffadc6"
   - type: Armor
+    basePart: Head
     modifiers:
-      coefficients:
-        Blunt: 0.9
-        Slash: 0.9
-        Piercing: 0.9
-        Heat: 0.9
+      [ Head ] : { coefficients: { Blunt: 0.9, Slash: 0.9, Piercing: 0.9, Heat: 0.9 } }
 
 #ERT Janitor Hardsuit
 - type: entity
-  parent: ClothingHeadHelmetHardsuitSyndie
+  parent: [ BaseCentcommContraband, ClothingHeadHelmetHardsuitSyndie ]
   id: ClothingHeadHelmetHardsuitERTJanitor
   name: ERT janitor hardsuit helmet
   description: A special hardsuit helmet worn by members of an emergency response team.
@@ -643,7 +601,7 @@
 
 #CBURN Hardsuit
 - type: entity
-  parent: ClothingHeadHardsuitWithLightBase
+  parent: [ BaseCentcommContraband, ClothingHeadHardsuitWithLightBase ]
   id: ClothingHeadHelmetCBURN
   name: CBURN exosuit helmet
   description: A pressure resistant and fireproof hood worn by special cleanup units.
@@ -670,18 +628,16 @@
     highPressureMultiplier: 0.08
     lowPressureMultiplier: 1000
   - type: TemperatureProtection
-    coefficient: 0.005
+    heatingCoefficient: 0.005
+    coolingCoefficient: 0.005
   - type: Armor
+    basePart: Head
     modifiers:
-      coefficients:
-        Blunt: 0.9
-        Slash: 0.9
-        Piercing: 0.9
-        Heat: 0.9
+      [ Head ] : { coefficients: { Blunt: 0.9, Slash: 0.9, Piercing: 0.9, Heat: 0.9 } }
 
 #Deathsquad Hardsuit
 - type: entity
-  parent: ClothingHeadHardsuitBase
+  parent: [ BaseCentcommContraband, ClothingHeadHardsuitBase ]
   id: ClothingHeadHelmetHardsuitDeathsquad
   name: deathsquad hardsuit helmet
   description: A robust helmet for special operations.
@@ -697,14 +653,9 @@
   - type: FireProtection
     reduction: 0.2
   - type: Armor
+    basePart: Head
     modifiers:
-      coefficients:
-        Blunt: 0.80
-        Slash: 0.80
-        Piercing: 0.80
-        Heat: 0.80
-        Radiation: 0.80
-        Caustic: 0.95
+      [ Head ] : { coefficients: { Blunt: 0.80, Slash: 0.80, Piercing: 0.80, Heat: 0.80, Radiation: 0.80, Caustic: 0.95 } }
 
 #MISC. HARDSUITS
 #Clown Hardsuit

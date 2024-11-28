@@ -123,9 +123,9 @@
     fiberMaterial: fibers-durathread
     fiberColor: fibers-black
   - type: Armor
+    basePart: Arm
     modifiers:
-      coefficients:
-        Slash: 0.95
+      [ Arm ]: { coefficients: { Slash: 0.95 } }
   - type: FingerprintMask
 
 #### Medical
@@ -255,7 +255,7 @@
       - type: CriminalRecordsHacker
 
 - type: entity
-  parent: [ClothingHandsGlovesColorBlack, BaseSecurityEngineeringContraband]
+  parent: [ ClothingHandsGlovesColorBlack, BaseSecurityEngineeringContraband ]
   id: ClothingHandsGlovesCombat
   name: combat gloves
   description: These tactical gloves are fireproof and shock resistant.

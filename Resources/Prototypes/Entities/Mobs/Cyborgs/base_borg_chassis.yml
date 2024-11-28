@@ -16,6 +16,14 @@
     soundHit:
       collection: MetalThud
   - type: CombatMode
+  - type: DamagePartSelector
+    selectableParts:
+      !type:BodyPart { type: Head, side: None }: { sprite: Interface/Actions/zone_sel.rsi, state: head }
+      !type:BodyPart { type: Arm, side: Left }: { sprite: Interface/Actions/zone_sel.rsi, state: larm }
+      !type:BodyPart { type: Leg, side: Left }: { sprite: Interface/Actions/zone_sel.rsi, state: lleg }
+      !type:BodyPart { type: Torso, side: None }: { sprite: Interface/Actions/zone_sel.rsi, state: torso }
+      !type:BodyPart { type: Leg, side: Right }: { sprite: Interface/Actions/zone_sel.rsi, state: rleg }
+      !type:BodyPart { type: Arm, side: Right }: { sprite: Interface/Actions/zone_sel.rsi, state: rarm }
   - type: NoSlip
   - type: StaticPrice
     price: 1250
@@ -69,6 +77,8 @@
         type: BorgBoundUserInterface
       enum.StrippingUiKey.Key:
         type: StrippableBoundUserInterface
+      enum.DamageSelectorUiKey.Key:
+        type: DamageSelectorBoundUserInterface
   - type: ActivatableUI
     key: enum.BorgUiKey.Key
   - type: SiliconLawBound
@@ -85,16 +95,19 @@
   - type: Hands
     showInHands: false
     disableExplosionRecursion: true
+    canBeStripped: false
   - type: ComplexInteraction
   - type: IntrinsicRadioReceiver
   - type: IntrinsicRadioTransmitter
     channels:
     - Binary
+    - Hexadecimal
     - Common
     - Science
   - type: ActiveRadio
     channels:
     - Binary
+    - Hexadecimal
     - Common
     - Science
   - type: ZombieImmune
@@ -121,6 +134,7 @@
     cellSlotId: cell_slot
     fitsInCharger: true
   - type: ItemToggle
+    onActivate: false # You should not be able to turn off a borg temporarily.
     activated: false # gets activated when a mind is added
     onUse: false # no item-borg toggling sorry
   - type: ItemTogglePointLight
@@ -134,7 +148,6 @@
     slots:
       cell_slot:
         name: power-cell-slot-component-slot-name-default
-  - type: Body
   - type: StatusEffects
     allowed:
     - Stun
@@ -228,16 +241,27 @@
     - DoorBumpOpener
     - FootstepSound
     - CanPilot
+    - SiliconEmotes
   - type: Emoting
   - type: GuideHelp
     guides:
     - Cyborgs
     - Robotics
-  - type: StepTriggerImmune
+  - type: ProtectedFromStepTriggers
   - type: DamageOnInteractProtection
     damageProtection:
       flatReductions:
         Heat: 10 # capable of touching light bulbs and stoves without feeling pain!
+  - type: SpeciesLanguage
+    spokenLanguages:
+    - Common
+    - Draconic
+    - Moffic
+    - Calcic
+    - Slime
+    - Monkey
+    - Buzzwords
+    - Binary
 
 - type: entity
   abstract: true
@@ -282,8 +306,33 @@
     - AllAccess
   - type: AccessReader
     access: [["Command"], ["Research"]]
+  - type: UserInterface
+    interfaces:
+      enum.SiliconLawsUiKey.Key:
+        type: SiliconLawBoundUserInterface
+      enum.BorgUiKey.Key:
+        type: BorgBoundUserInterface
+      enum.GeneralStationRecordConsoleKey.Key:
+        type: GeneralStationRecordConsoleBoundUserInterface
+      enum.StrippingUiKey.Key:
+        type: StrippableBoundUserInterface
+      enum.DamageSelectorUiKey.Key:
+        type: DamageSelectorBoundUserInterface
+  - type: ActivatableUI
+    key: enum.BorgUiKey.Key
+  - type: IntrinsicUI
+    uis:
+      enum.GeneralStationRecordConsoleKey.Key:
+        toggleAction: ActionAGhostShowStationRecords
+  - type: GeneralStationRecordConsole
   - type: ShowJobIcons
   - type: ShowMindShieldIcons
+  - type: StatusIcon
+  - type: IdCard
+    accessOverride: false
+    updateName: false
+  - type: PresetIdCard
+    job: Borg
 
 - type: entity
   id: BaseBorgChassisSyndicate
@@ -304,6 +353,7 @@
   - type: IntrinsicRadioTransmitter
     channels:
     - Binary
+    - Hexadecimal
     - Syndicate
   - type: ActiveRadio
     channels:

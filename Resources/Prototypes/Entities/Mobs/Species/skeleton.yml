@@ -82,6 +82,7 @@
       effects: # TODO: when magic is around - make a milk transformation to a skeleton monster
       - !type:HealthChange
         scaleByQuantity: true
+        targetIsOrigin: true
         damage:
           groups:
             Burn: -2 # healing obviously up to discussion
@@ -109,6 +110,19 @@
           32:
             sprite: Mobs/Species/Human/displacement.rsi
             state: jumpsuit-female
+  - type: LeavesFootprints
+    footprintPrototype: FootprintFootLeft
+    footprintPrototypeAlternative: FootprintFootRight
+  - type: Residue
+    residueAge:
+    - ageLocId: footprint-foot-fresh
+      ageThrestholdMin: 0
+    - ageLocId: footprint-foot-mild
+      ageThrestholdMin: 5
+    - ageLocId: footprint-foot-old
+      ageThrestholdMin: 10
+    - ageLocId: footprint-foot-ancient
+      ageThrestholdMin: 20
   - type: SpeciesLanguage
     spokenLanguages:
     - Calcic

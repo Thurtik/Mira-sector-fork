@@ -14,6 +14,7 @@ using Content.Shared.Input;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Components;
 using Content.Shared.Inventory;
+using Content.Shared.Inventory.Events;
 using Content.Shared.Item;
 using Content.Shared.Lock;
 using Content.Shared.Materials;
@@ -123,6 +124,9 @@ public abstract class SharedStorageSystem : EntitySystem
         SubscribeLocalEvent<StorageComponent, EntInsertedIntoContainerMessage>(OnEntInserted);
         SubscribeLocalEvent<StorageComponent, EntRemovedFromContainerMessage>(OnEntRemoved);
         SubscribeLocalEvent<StorageComponent, ContainerIsInsertingAttemptEvent>(OnInsertAttempt);
+
+        SubscribeLocalEvent<StorageComponent, GotEquippedEvent>(OnEquipped);
+        SubscribeLocalEvent<StorageComponent, GotUnequippedEvent>(OnUnequipped);
 
         SubscribeLocalEvent<StorageComponent, AreaPickupDoAfterEvent>(OnDoAfter);
 
@@ -320,7 +324,9 @@ public abstract class SharedStorageSystem : EntitySystem
         if (!silent)
         {
             if (!_ui.IsUiOpen(uid, StorageComponent.StorageUiKey.Key))
+            {
                 Audio.PlayPredicted(storageComp.StorageOpenSound, uid, entity);
+            }
 
             if (useDelay != null)
                 UseDelay.TryResetDelay((uid, useDelay), id: OpenUiUseDelayID);
@@ -365,7 +371,9 @@ public abstract class SharedStorageSystem : EntitySystem
         if (args.Handled || !CanInteract(args.User, (uid, storageComp), storageComp.ClickInsert, false))
             return;
 
-        if (HasComp<PlaceableSurfaceComponent>(uid))
+        var attemptEv = new StorageInteractUsingAttemptEvent();
+        RaiseLocalEvent(uid, ref attemptEv);
+        if (attemptEv.Cancelled)
             return;
 
         PlayerInsertHeldEntity((uid, storageComp), args.User);
@@ -452,7 +460,7 @@ public abstract class SharedStorageSystem : EntitySystem
             }
 
             //If there's only one then let's be generous
-            if (_entList.Count > 1)
+            if (_entList.Count >= 1)
             {
                 var doAfterArgs = new DoAfterArgs(EntityManager, args.User, delay, new AreaPickupDoAfterEvent(GetNetEntityList(_entList)), uid, target: uid)
                 {
@@ -546,7 +554,7 @@ public abstract class SharedStorageSystem : EntitySystem
 
             var angle = targetXform.LocalRotation;
 
-            if (PlayerInsertEntityInWorld((uid, component), args.Args.User, entity))
+            if (PlayerInsertEntityInWorld((uid, component), args.Args.User, entity, playSound: false))
             {
                 successfullyInserted.Add(entity);
                 successfullyInsertedPositions.Add(position);
@@ -665,7 +673,7 @@ public abstract class SharedStorageSystem : EntitySystem
 
     private void OnSaveItemLocation(StorageSaveItemLocationEvent msg, EntitySessionEventArgs args)
     {
-        if (!ValidateInput(args, msg.Storage, msg.Item, out var player, out var storage, out var item, held: true))
+        if (!ValidateInput(args, msg.Storage, msg.Item, out var player, out var storage, out var item))
             return;
 
         SaveItemLocation(storage!, item.Owner);
@@ -735,6 +743,18 @@ public abstract class SharedStorageSystem : EntitySystem
 
             args.Cancel();
         }
+    }
+
+    private void OnEquipped(EntityUid uid, StorageComponent component, GotEquippedEvent args)
+    {
+        component.CanAnimate = component.Animations;
+        Dirty(uid, component);
+    }
+
+    private void OnUnequipped(EntityUid uid, StorageComponent component, GotUnequippedEvent args)
+    {
+        component.CanAnimate = false;
+        Dirty(uid, component);
     }
 
     public void UpdateAppearance(Entity<StorageComponent?, AppearanceComponent?> entity)
@@ -1039,12 +1059,12 @@ public abstract class SharedStorageSystem : EntitySystem
     /// <param name="player">The player to insert an entity with</param>
     /// <param name="toInsert"></param>
     /// <returns>true if inserted, false otherwise</returns>
-    public bool PlayerInsertEntityInWorld(Entity<StorageComponent?> uid, EntityUid player, EntityUid toInsert)
+    public bool PlayerInsertEntityInWorld(Entity<StorageComponent?> uid, EntityUid player, EntityUid toInsert, bool playSound = true)
     {
         if (!Resolve(uid, ref uid.Comp) || !_interactionSystem.InRangeUnobstructed(player, uid.Owner))
             return false;
 
-        if (!Insert(uid, toInsert, out _, user: player, uid.Comp))
+        if (!Insert(uid, toInsert, out _, user: player, uid.Comp, playSound: playSound))
         {
             _popupSystem.PopupClient(Loc.GetString("comp-storage-cant-insert"), uid, player);
             return false;

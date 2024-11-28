@@ -34,8 +34,10 @@ public abstract partial class SharedVehicleSystem : EntitySystem
         base.Initialize();
         SubscribeLocalEvent<VehicleComponent, ComponentInit>(OnInit);
         SubscribeLocalEvent<VehicleComponent, ComponentRemove>(OnRemove);
+
         SubscribeLocalEvent<VehicleComponent, StrapAttemptEvent>(OnStrapAttempt);
         SubscribeLocalEvent<VehicleComponent, StrappedEvent>(OnStrapped);
+
         SubscribeLocalEvent<VehicleComponent, UnstrappedEvent>(OnUnstrapped);
         SubscribeLocalEvent<VehicleComponent, VirtualItemDeletedEvent>(OnDropped);
 
@@ -102,7 +104,7 @@ public abstract partial class SharedVehicleSystem : EntitySystem
         if (component.HornSound == null)
             return;
 
-        _audio.PlayPvs(component.HornSound, component.Owner);
+        _audio.PlayPredicted(component.HornSound, component.Owner, component.Driver);
         args.Handled = true;
     }
 
@@ -123,7 +125,10 @@ public abstract partial class SharedVehicleSystem : EntitySystem
         }
         else
         {
-            component.SirenStream = _audio.PlayPvs(component.SirenSound, component.Owner, AudioParams.Default.WithLoop(true).WithMaxDistance(5)).Value.Entity;
+            var audio = _audio.PlayPvs(component.SirenSound, component.Owner, AudioParams.Default.WithLoop(true).WithMaxDistance(5));
+
+            if (audio != null)
+                component.SirenStream = audio.Value.Entity;
         }
 
         component.SirenEnabled = !component.SirenEnabled;
@@ -219,6 +224,8 @@ public abstract partial class SharedVehicleSystem : EntitySystem
             {
                 accessComp.Tags.Add(tag);
             }
+
+            Dirty(vehicle, accessComp);
         }
 
         _mover.SetRelay(driver, vehicle);
@@ -245,7 +252,10 @@ public abstract partial class SharedVehicleSystem : EntitySystem
         _virtualItem.DeleteInHandsMatching(driver, vehicle);
 
         if (TryComp<AccessComponent>(vehicle, out var accessComp))
+        {
             accessComp.Tags.Clear();
+            Dirty(vehicle, accessComp);
+        }
     }
 }
 
