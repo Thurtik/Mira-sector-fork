@@ -89,7 +89,6 @@
       - id: BoxSyringe
       - id: BoxSterileMask
       - id: ClothingOuterCoatAMG
-      - id: ClothingOuterHardsuitBrigmedic
         prob: 0.1
       - id: MedkitFilled
       - id: MedkitCombatFilled
